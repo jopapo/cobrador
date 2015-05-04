@@ -59,6 +59,6 @@ app.get('*', function(req, res) {
 // listen (start app with node server.js) ======================================
 
 //app.listen(8080);
-server.listen(8081);
+server.listen();
 
 console.log("App listening on port 8081");
