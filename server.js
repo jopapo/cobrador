@@ -10,6 +10,8 @@ var Game 	 = require('./game.js');
 var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 
+app.set('port', (process.env.PORT || 8081));
+
 var game = new Game();
 
 io.on('connection', function (socket) {
@@ -59,6 +61,6 @@ app.get('*', function(req, res) {
 // listen (start app with node server.js) ======================================
 
 //app.listen(8080);
-server.listen();
-
-console.log("App listening on port 8081");
+server.listen(app.get('port'), function() {
+  console.log("Node app is running on port:" + app.get('port'))
+});
