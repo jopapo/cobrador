@@ -1,0 +1,51 @@
+<!-- index.html -->
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="scotchTodo">
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Cobrador!</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; orient: portrait; }
+        #todo-list              { margin-bottom:30px; }
+		@viewport {
+			orientation: portrait;
+		}
+		.center-block {float: none !important}
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script><!-- load jquery -->
+	<script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.5/socket.io.min.js"></script>  <!-- Load socket IO - realtime -->
+    <script src="core.js"></script>
+</head>
+
+<!-- SET THE CONTROLLER AND GET ALL TODOS -->
+<body>
+    <div class="container" ng-controller="mainController">
+        <!-- HEADER -->
+        <div class="jumbotron text-center">
+            <h1>Cobrador!</h1>
+			<p>Se seu dispositivo possuir giroscópio, use-o. :P</p>
+        </div>
+
+        <!-- JOGO -->
+		<!-- Lets make a simple snake game -->
+		<div class="row">
+			<div class="col-md-12" style="text-align: center">
+				<canvas id="canvas" width="450" height="450"></canvas>
+			</div>
+		</div>
+
+    </div>
+
+</body>
+</html>
