@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 	//Canvas stuff
 	var canvas = $("#canvas")[0];
 	var ctx = canvas.getContext("2d");
@@ -7,15 +8,9 @@ $(document).ready(function(){
 	
 	//Lets save the cell width in a variable for easy control
 	var cw = 10;
+	var ch = cw / 2;
 	
-	//Lets first create a generic function to paint cells
-	function paint_cell(x, y, color)
-	{
-		ctx.fillStyle = color;
-		ctx.fillRect(x*cw, y*cw, cw, cw);
-		ctx.strokeStyle = "silver";
-		ctx.strokeRect(x*cw, y*cw, cw, cw);
-	}
+	var foodImg = document.getElementById('food');
 	
 	//Lets paint the snake now
 	function paint()
@@ -25,24 +20,40 @@ $(document).ready(function(){
 		
 		//To avoid the snake trail we need to paint the BG on every frame
 		//Lets paint the canvas now
-		ctx.fillStyle = "white";
-		ctx.fillRect(0, 0, w, h);
-		ctx.strokeStyle = "black";
-		ctx.strokeRect(0, 0, w, h);
-
+		if (!$(ctx).prop('_saved')) 
+		{
+			ctx.fillStyle = "white";
+			ctx.fillRect(0, 0, w, h);
+			ctx.strokeStyle = "black";
+			ctx.strokeRect(0, 0, w, h);
+			ctx.save();
+			$(ctx).prop('saved', true);
+		} else {
+			ctx.restore();
+		}
+		
 		for(var p in game.players)
 		{
 			var player = game.players[p];
+			ctx.fillStyle = player.color;
 			for(var i = 0; i < player.position.length; i++)
 			{
 				var c = player.position[i];
-				//Lets paint 10px wide cells
-				paint_cell(c[0], c[1], player.color);
+				ctx.beginPath();
+				ctx.arc(c[0]*cw+ch, c[1]*cw+ch, ch * (1.1-(i/player.position.length)), 0, 2*Math.PI, false);
+				ctx.fill();
 			}
 		}
 		
 		//Lets paint the food
-		paint_cell(game.food.position[0], game.food.position[1], game.food.color);
+		//ctx.fillStyle = game.food.color;
+		//ctx.fillRect(game.food.position[0]*cw, game.food.position[1]*cw, cw, cw);
+		//ctx.strokeStyle = "silver";
+		//ctx.strokeRect(game.food.position[0]*cw, game.food.position[1]*cw, cw, cw);
+		ctx.beginPath();
+		//ctx.drawImage(foodImg, game.food.position[0]*cw, game.food.position[1]*cw, cw, cw);
+		ctx.drawImage(foodImg, game.food.position[0]*cw - 2, game.food.position[1]*cw - 2, cw + 4, cw + 4);
+		//paint_cell(game.food.position[0], game.food.position[1], game.food.color);
 		
 		//Lets paint the score
 		//var score_text = "Score: " + score;
@@ -80,7 +91,18 @@ $(document).ready(function(){
 		else if(key == "40") move("down");
 	})
 	
+	var giroObj = $('#giro');
+	
 	function devOrientHandler(eventData) {
+		if (giroObj) {
+			if (!giroObj.prop('second')) {
+				giroObj.prop('second', true);
+			} else {
+				giroObj.fadeIn();
+				giroObj = null;
+			}
+		}
+		
 		// gamma is the left-to-right tilt in degrees, where right is positive
 		var tiltLR = eventData.gamma;
 		// beta is the front-to-back tilt in degrees, where front is positive

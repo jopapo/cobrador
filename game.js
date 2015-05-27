@@ -128,7 +128,8 @@ Game.prototype.randomFreePosition = function() {
 
 Game.prototype.newPlayer = function(id) {
 	var color = (function(h){return '#000000'.substr(0,7-h.length)+h})((~~(Math.random()*(1<<24))).toString(16));
-	var player = { color: color, direction: "right", position: [this.randomFreePosition()] };
+	var pos = this.randomFreePosition();
+	var player = { color: color, direction: "right", position: [pos, [pos[0] - 1, pos[1]], [pos[0] - 2, pos[1]]] };
 	this.metadata.players[id] = player;
 }
 
